@@ -1,0 +1,27 @@
+﻿@page "/calendar"
+@using Radzen
+@inject Radzen.DialogService DialogService
+<link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
+<RadzenScheduler Data="@data" style="height: 768px;" TItem="Event" StartProperty="Start" EndProperty="End" TextProperty="Text">
+    <RadzenMonthView />
+    <RadzenWeekView />
+    <RadzenDayView />
+</RadzenScheduler>
+@code {
+    class Event
+    {
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string? Text { get; set; }
+    }
+
+    Event[] data = new Event[]
+    {
+      new Event
+      {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1),
+        Text = "Placeholder Event"
+      },
+    };
+}
