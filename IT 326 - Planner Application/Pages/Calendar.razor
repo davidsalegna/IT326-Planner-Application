@@ -1,8 +1,8 @@
 ﻿@page "/calendar"
 @using Radzen
 @inject Radzen.DialogService DialogService
-<link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
-<RadzenScheduler Data="@data" style="height: 768px;" TItem="Event" StartProperty="Start" EndProperty="End" TextProperty="Text">
+<link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
+<RadzenScheduler Data="@data" style="height: 600px;" TItem="Event" StartProperty="Start" EndProperty="End" TextProperty="Text">
     <RadzenMonthView />
     <RadzenWeekView />
     <RadzenDayView />
