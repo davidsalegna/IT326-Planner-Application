@@ -9,13 +9,15 @@
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode" />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        <MudToggleIconButton @bind-Toggled="@_isDarkMode" Color="Color.Inherit" Icon="@Icons.Filled.LightMode" ToggledColor="Color.Inherit" ToggledIcon="@Icons.Filled.Nightlight"/>
+        @*<MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool"/>*@
+        <MudIconButton Href="account" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.ManageAccounts" Color="Color.Inherit"></MudIconButton>
+        @*<MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />*@
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">Planner</MudText>
+            <MudText Typo="Typo.h6">Student Planner</MudText>
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
@@ -34,19 +36,39 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    private bool _isDarkMode;
+    public static bool _isDarkMode;
+
+    public static bool isDarkMode() 
+    {
+
+        return _isDarkMode;
+
+    }
 
     MudTheme customTheme = new MudTheme()
     {
         Palette = new Palette()
         {
-            Primary = Colors.Red.Default,
-            Secondary = Colors.Red.Accent4,
-            AppbarBackground = Colors.Red.Default,
+            Primary = Colors.Blue.Darken3,
+            Secondary = Colors.LightBlue.Lighten2,
+            Tertiary = Colors.Blue.Default,
+            AppbarBackground = Colors.Red.Lighten1,
+            AppbarText = Colors.Shades.Black,
+            DrawerBackground = Colors.Red.Accent1,
+            DrawerText = Colors.Shades.Black,
+            Background = Colors.Shades.White,
+
         },
         PaletteDark = new Palette()
         {
-            
+            Primary = Colors.Blue.Default,
+            Secondary = Colors.Red.Accent4,
+            Tertiary = Colors.Blue.Default,
+            AppbarBackground = Colors.Red.Accent3,
+            AppbarText = Colors.Shades.White,
+            DrawerBackground = Colors.Red.Darken3,
+            DrawerText = Colors.Shades.White,
+            Background = Colors.Grey.Darken3,
         },
 
         LayoutProperties = new LayoutProperties()

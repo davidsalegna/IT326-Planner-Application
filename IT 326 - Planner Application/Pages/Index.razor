@@ -1,7 +1,29 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@using Radzen
+@inject Radzen.DialogService DialogService
+<link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
+<PageTitle>Calendar</PageTitle>
+<RadzenScheduler Data="@data" style="height: 600px;" TItem="Event" StartProperty="Start" EndProperty="End" TextProperty="Text">
+    <RadzenMonthView />
+    <RadzenWeekView />
+    <RadzenDayView />
+</RadzenScheduler>
+@code {
+    class Event
+    {
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string? Text { get; set; }
+    }
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+    Event[] data = new Event[]
+    {
+      new Event
+      {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1),
+        Text = "Placeholder Event"
+      },
+    };
+}
