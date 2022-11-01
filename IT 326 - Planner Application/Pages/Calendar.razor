@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Radzen
 @using IT_326___Planner_Application.Models
+@using IT_326___Planner_Application.Pages
 @inject Radzen.DialogService DialogService
 
 @if (!MainLayout.isDarkMode()) {
@@ -49,11 +50,11 @@ else {
         }
     }
 
-    void OnSlotSelect(SchedulerSlotSelectEventArgs args)
+    async void OnSlotSelect(SchedulerSlotSelectEventArgs args)
     {
         //console.Log($"SlotSelect: Start={args.Start} End={args.End}");
 
-        //Event data = await DialogService.OpenAsync<AddEvent>("Add Appointment", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+        Event data = await DialogService.OpenAsync<CreateEvent>("Add Event", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
 
         //if (data != null)
         //{
