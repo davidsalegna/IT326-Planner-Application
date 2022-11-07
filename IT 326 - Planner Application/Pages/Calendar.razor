@@ -1,32 +1,94 @@
 ﻿@page "/"
 @using Radzen
+@using IT_326___Planner_Application.Models
+@using IT_326___Planner_Application.Pages
 @inject Radzen.DialogService DialogService
+
+
 @if (!MainLayout.isDarkMode()) {
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
 }
 else {
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/dark.css">
 }
-<RadzenScheduler Data="@data" style="height: 70vh; width: 70vw; margin: 0; padding: 0;" TItem="Event" StartProperty="Start" EndProperty="End" TextProperty="Text">
+<PageTitle>Calendar</PageTitle>
+<RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender Data="@eventList" style="height: 70vh; width: 70vw; margin: 0; padding: 0;" TItem="Event" 
+        StartProperty="Start" EndProperty="End" TextProperty="Text" SelectedIndex="0" SlotSelect=@OnSlotSelect 
+        AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
     <RadzenMonthView />
     <RadzenWeekView />
     <RadzenDayView />
 </RadzenScheduler>
-@code {
-    class Event
-    {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public string? Text { get; set; }
-    }
+@code { //Calendar Class
 
-    Event[] data = new Event[]
-    {
+    //Create instance of scheduler object to reload calendar view when changes are made
+    private RadzenScheduler<Event>? scheduler = new RadzenScheduler<Event> { };
+
+    //ArrayList to hold all event objects
+    //Currently has some pre-made test event objects
+    IList<Event> eventList = new List<Event> {
       new Event
       {
         Start = DateTime.Today,
         End = DateTime.Today.AddDays(1),
         Text = "Placeholder Event"
       },
+      new Event
+      {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1),
+        Text = "Birthday"
+      },
+      new Course {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1),
+        Text = "Chemistry",
+        color = "green",
+        teacher = "Rishi"
+      }
     };
+
+    void OnSlotRender(SchedulerSlotRenderEventArgs args)
+    {
+        // Highlight today in month view
+        if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
+        {
+            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+        }
+
+        // Highlight working hours (9-18)
+        if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 8 && args.Start.Hour < 19)
+        {
+            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+        }
+    }
+
+    async void OnSlotSelect(SchedulerSlotSelectEventArgs args)
+    {
+        // Refer to CreateEvent.razor to create new Event object and set parameters, when done return to this method
+        Event data = await DialogService.OpenAsync<CreateEvent>("Add Event", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+
+        // Add new event to the eventList
+        if (data != null && scheduler != null)
+        {
+            eventList.Add(data);
+            await scheduler.Reload();
+        }
+    }
+
+    async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
+    {
+        // Refer to EditEvent.razor to edit the clicked on event, doesn't work at the moment
+        await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
+        if (scheduler != null) {
+            await scheduler.Reload();
+        }
+
+    }
+
+    void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Event> args)
+    {
+        //Change event background to be what was set in the event data
+        args.Attributes["style"] = "background: " + args.Data.color;
+    }
 }

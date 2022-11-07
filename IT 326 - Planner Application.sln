@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT 326 - Planner Application", "IT 326 - Planner Application\IT 326 - Planner Application.csproj", "{A34AF411-004F-41F8-9F4A-9B5C725AD202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IT 326 - Planner Application", "IT 326 - Planner Application\IT 326 - Planner Application.csproj", "{A34AF411-004F-41F8-9F4A-9B5C725AD202}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
