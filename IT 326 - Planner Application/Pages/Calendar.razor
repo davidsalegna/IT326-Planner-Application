@@ -10,17 +10,21 @@
 else {
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/dark.css">
 }
-<RadzenScheduler Data="@data" style="height: 70vh; width: 70vw; margin: 0; padding: 0;" TItem="Event" StartProperty="Start" EndProperty="End"
-                 TextProperty="Text" SelectedIndex="0" SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
+<PageTitle>Calendar</PageTitle>
+<RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender Data="@eventList" style="height: 70vh; width: 70vw; margin: 0; padding: 0;" TItem="Event" 
+        StartProperty="Start" EndProperty="End" TextProperty="Text" SelectedIndex="0" SlotSelect=@OnSlotSelect 
+        AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
     <RadzenMonthView />
     <RadzenWeekView />
     <RadzenDayView />
 </RadzenScheduler>
 @code {
-    //RadzenScheduler<Event> scheduler;
+    //Calendar Class
 
-    Event[] data = new Event[]
-    {
+    //Create instance of scheduler object to reload calendar view when changes are made
+    private RadzenScheduler<Event>? scheduler = new RadzenScheduler<Event> { };
+
+    IList<Event> eventList = new List<Event> {
       new Event
       {
         Start = DateTime.Today,
@@ -52,34 +56,29 @@ else {
 
     async void OnSlotSelect(SchedulerSlotSelectEventArgs args)
     {
-        //console.Log($"SlotSelect: Start={args.Start} End={args.End}");
-
+        // Refer to CreateEvent.razor to create new Event object and set parameters, when done return to this method
         Event data = await DialogService.OpenAsync<CreateEvent>("Add Event", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
 
-        //if (data != null)
-        //{
-        //    data.Add(data);
-        //    // Either call the Reload method or reassign the Data property of the Scheduler
-        //    await scheduler.Reload();
-        //}
+        // Add new event to the eventList
+        if (data != null && scheduler != null)
+        {
+            eventList.Add(data);
+            await scheduler.Reload();
+        }
     }
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
-        //console.Log($"AppointmentSelect: Appointment={args.Data.Text}");
-
         await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
+        if (scheduler != null) {
+            await scheduler.Reload();
+        }
 
-        //await scheduler.Reload();
     }
 
     void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Event> args)
     {
-        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
-
-        if (args.Data.Text == "Birthday")
-        {
-            args.Attributes["style"] = "background: red";
-        }
+        //Change event background to be what was set in the event data
+        args.Attributes["style"] = "background: " + args.Data.color;
     }
 }

@@ -5,7 +5,7 @@
 <RadzenTemplateForm TItem="Event" Data="@model" Submit=@OnSubmit>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Text" />
+            <RadzenLabel Text="Name" />
         </div>
         <div class="col">
             <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
@@ -30,6 +30,17 @@
             <RadzenRequiredValidator Component="End" Text="End is required" />
         </div>
     </div>
+
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Color" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="@model.color" Name="Color" />
+            <RadzenRequiredValidator Text="Title is required" Component="Color" />
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col">
