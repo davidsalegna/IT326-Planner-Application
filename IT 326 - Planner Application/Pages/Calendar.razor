@@ -4,6 +4,7 @@
 @using IT_326___Planner_Application.Pages
 @inject Radzen.DialogService DialogService
 
+
 @if (!MainLayout.isDarkMode()) {
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
 }
@@ -18,12 +19,13 @@ else {
     <RadzenWeekView />
     <RadzenDayView />
 </RadzenScheduler>
-@code {
-    //Calendar Class
+@code { //Calendar Class
 
     //Create instance of scheduler object to reload calendar view when changes are made
     private RadzenScheduler<Event>? scheduler = new RadzenScheduler<Event> { };
 
+    //ArrayList to hold all event objects
+    //Currently has some pre-made test event objects
     IList<Event> eventList = new List<Event> {
       new Event
       {
@@ -37,6 +39,13 @@ else {
         End = DateTime.Today.AddDays(1),
         Text = "Birthday"
       },
+      new Course {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1),
+        Text = "Chemistry",
+        color = "green",
+        teacher = "Rishi"
+      }
     };
 
     void OnSlotRender(SchedulerSlotRenderEventArgs args)
@@ -69,6 +78,7 @@ else {
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
+        // Refer to EditEvent.razor to edit the clicked on event, doesn't work at the moment
         await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
         if (scheduler != null) {
             await scheduler.Reload();

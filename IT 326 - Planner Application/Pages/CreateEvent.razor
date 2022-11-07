@@ -3,6 +3,7 @@
 @using IT_326___Planner_Application.Models
 
 <RadzenTemplateForm TItem="Event" Data="@model" Submit=@OnSubmit>
+    <RadzenButton Click=@(args => OnClick("Primary button")) Text="Course" ButtonStyle="ButtonStyle.Primary" />
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
             <RadzenLabel Text="Name" />
@@ -37,7 +38,6 @@
         </div>
         <div class="col">
             <RadzenTextBox @bind-Value="@model.color" Name="Color" />
-            <RadzenRequiredValidator Text="Title is required" Component="Color" />
         </div>
     </div>
 
@@ -57,12 +57,19 @@
 
     Event model = new Event();
 
+    //Currently being tested
+    void OnClick(string buttonName) {
+        Event model = new Course();
+    }
+
+    //Sets the clicked times to the model data
     protected override void OnParametersSet()
     {
         model.Start = Start;
         model.End = End;
     }
 
+    //On clicking "Save", close the box and return the new event object (model)
     void OnSubmit(Event model)
     {
         DialogService.Close(model);
