@@ -3,50 +3,101 @@
 @using IT_326___Planner_Application.Models
 
 <RadzenTemplateForm TItem="Event" Data="@model" Submit=@OnSubmit>
-    <RadzenButton Click=@(args => OnClick("Primary button")) Text="Course" ButtonStyle="ButtonStyle.Primary" />
-    <div class="row" style="margin-bottom: 16px">
-        <div class="col-md-3">
-            <RadzenLabel Text="Name" />
-        </div>
-        <div class="col">
-            <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
-            <RadzenRequiredValidator Text="Title is required" Component="Text" />
-        </div>
-    </div>
-    <div class="row" style="margin-bottom: 16px">
-        <div class="col-md-3">
-            <RadzenLabel Text="Start" />
-        </div>
-        <div class="col">
-            <RadzenDatePicker @bind-Value="@model.Start" Name="Start" ShowTime="true" />
-            <RadzenRequiredValidator Text="Start is required" Component="Start" />
-        </div>
-    </div>
-    <div class="row" style="margin-bottom: 16px">
-        <div class="col-md-3">
-            <RadzenLabel Text="End" />
-        </div>
-        <div class="col">
-            <RadzenDatePicker Name="End" @bind-Value="@model.End" ShowTime="true" />
-            <RadzenRequiredValidator Component="End" Text="End is required" />
-        </div>
-    </div>
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem Text="Event">
 
-    <div class="row" style="margin-bottom: 16px">
-        <div class="col-md-3">
-            <RadzenLabel Text="Color" />
-        </div>
-        <div class="col">
-            <RadzenTextBox @bind-Value="@model.color" Name="Color" />
-        </div>
-    </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Name" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Text" Name="Text" />
+                        <RadzenRequiredValidator Text="Title is required" Component="Text" />
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col">
-            <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
-        </div>
-    </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Start" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker @bind-Value="@model.Start" Name="Start" ShowTime="true" />
+                        <RadzenRequiredValidator Text="Start is required" Component="Start" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="End" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker Name="End" @bind-Value="@model.End" ShowTime="true" />
+                        <RadzenRequiredValidator Component="End" Text="End is required" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <h4 class="my-4">Select Event Color</h4>
+                    <RadzenColorPicker @bind-Value=@model.color/>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col">
+                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
+                    </div>
+                </div>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Course">
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Name" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Text" Name="Text" />
+                        <RadzenRequiredValidator Text="Title is required" Component="Text" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Teacher" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@teacher" Name="Teacher" />
+                        <RadzenRequiredValidator Text="Teacher is required" Component="Teacher" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Start" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker @bind-Value="@model.Start" Name="Start" ShowTime="true" />
+                        <RadzenRequiredValidator Text="Start is required" Component="Start" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="End" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker Name="End" @bind-Value="@model.End" ShowTime="true" />
+                        <RadzenRequiredValidator Component="End" Text="End is required" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <h4 class="my-4">Select Event Color</h4>
+                    <RadzenColorPicker @bind-Value=@model.color/>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col">
+                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
+                    </div>
+                </div>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
 </RadzenTemplateForm>
 @code {
     [Parameter]
@@ -57,14 +108,12 @@
 
     Event model = new Event();
 
-    //Currently being tested
-    void OnClick(string buttonName) {
-        Event model = new Course();
-    }
+    string? teacher;
 
     //Sets the clicked times to the model data
     protected override void OnParametersSet()
     {
+        //model = new Event();
         model.Start = Start;
         model.End = End;
     }
@@ -72,6 +121,17 @@
     //On clicking "Save", close the box and return the new event object (model)
     void OnSubmit(Event model)
     {
-        DialogService.Close(model);
+        if (teacher != null) {
+            Course course = new Course();
+            course.Text = model.Text;
+            course.Start = model.Start;
+            course.End = model.End;
+            course.color = model.color;
+            course.teacher = teacher;
+            DialogService.Close(course);
+        }
+        else {
+            DialogService.Close(model);
+        } 
     }
 }

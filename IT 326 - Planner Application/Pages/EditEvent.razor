@@ -8,7 +8,7 @@
             <RadzenLabel Text="Text" />
         </div>
         <div class="col">
-            <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
+            <RadzenTextBox @bind-Value="@model!.Text" Name="Text" />
             <RadzenRequiredValidator Text="Title is required" Component="Text" />
         </div>
     </div>
@@ -30,29 +30,53 @@
             <RadzenRequiredValidator Component="End" Text="End is required" />
         </div>
     </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Teacher" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.teacher" Name="Teacher" />
+            <RadzenRequiredValidator Text="Teacher is required" Component="Teacher" />
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 16px">
+        <h4 class="my-4">Select Event Color</h4>
+        <RadzenColorPicker @bind-Value=@model.color/>
+    </div>
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col">
             <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
         </div>
     </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3"></div>
+        <div class="col">
+            <RadzenButton Text="Delete" Click=@(args => OnClick("Delete Event")) />
+        </div>
+    </div>
 </RadzenTemplateForm>
 @code {
     [Parameter]
-    public DateTime Start { get; set; }
+    public Course? Event { get; set; }
 
-    [Parameter]
-    public DateTime End { get; set; }
-
-    Event model = new Event();
+    Course? model = new Course();
 
     protected override void OnParametersSet()
     {
-        model.Start = Start;
-        model.End = End;
+        if (Event != null) {
+            model = Event;
+        }
     }
 
-    void OnSubmit(Event model)
+    void OnClick(string buttonName)
+    {
+        model = null;
+        DialogService.Close();
+    }
+
+    void OnSubmit(Event? model)
     {
         DialogService.Close(model);
     }

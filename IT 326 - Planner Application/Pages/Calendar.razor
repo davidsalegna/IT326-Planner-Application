@@ -19,14 +19,15 @@ else {
     <RadzenWeekView />
     <RadzenDayView />
 </RadzenScheduler>
-@code { //Calendar Class
+@code {
+    //Calendar Class
 
     //Create instance of scheduler object to reload calendar view when changes are made
     private RadzenScheduler<Event>? scheduler = new RadzenScheduler<Event> { };
 
     //ArrayList to hold all event objects
     //Currently has some pre-made test event objects
-    IList<Event> eventList = new List<Event> {
+    private IList<Event> eventList = new List<Event> {
       new Event
       {
         Start = DateTime.Today,
@@ -78,7 +79,7 @@ else {
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
-        // Refer to EditEvent.razor to edit the clicked on event, doesn't work at the moment
+        // Refer to EditEvent.razor to edit the clicked on event
         await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
         if (scheduler != null) {
             await scheduler.Reload();
