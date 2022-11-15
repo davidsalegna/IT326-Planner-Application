@@ -19,14 +19,15 @@ else {
     <RadzenWeekView />
     <RadzenDayView />
 </RadzenScheduler>
-@code { //Calendar Class
+@code {
+    //Calendar Class
 
     //Create instance of scheduler object to reload calendar view when changes are made
     private RadzenScheduler<Event>? scheduler = new RadzenScheduler<Event> { };
 
     //ArrayList to hold all event objects
     //Currently has some pre-made test event objects
-    IList<Event> eventList = new List<Event> {
+    public static IList<Event> eventList = new List<Event> {
       new Event
       {
         Start = DateTime.Today,
@@ -66,23 +67,33 @@ else {
     async void OnSlotSelect(SchedulerSlotSelectEventArgs args)
     {
         // Refer to CreateEvent.razor to create new Event object and set parameters, when done return to this method
-        Event data = await DialogService.OpenAsync<CreateEvent>("Add Event", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+        var data = await DialogService.OpenAsync<CreateEvent>("Add Event", new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
 
         // Add new event to the eventList
         if (data != null && scheduler != null)
         {
             eventList.Add(data);
-            await scheduler.Reload();
+            await scheduler!.Reload();
         }
     }
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
-        // Refer to EditEvent.razor to edit the clicked on event, doesn't work at the moment
-        await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
-        if (scheduler != null) {
-            await scheduler.Reload();
+        // Refer to EditEvent.razor to edit the clicked on event
+        if (args.Data.GetType() == typeof(Event)) {
+            await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
+               if (scheduler != null) {
+                  await scheduler.Reload();
+               }
         }
+        else if (args.Data.GetType() == typeof(Course)) {
+            await DialogService.OpenAsync<EditCourse>("Edit Course", new Dictionary<string, object> { { "Course", (Course)args.Data } });
+            if (scheduler != null)
+            {
+                await scheduler.Reload();
+            }
+        }
+        
 
     }
 
@@ -90,5 +101,15 @@ else {
     {
         //Change event background to be what was set in the event data
         args.Attributes["style"] = "background: " + args.Data.color;
+    }
+
+    public static IList<Course> getCourseList() {
+        IList<Course> courseList = new List<Course> { };
+        foreach (var i in eventList) {
+            if (i.GetType() == typeof(Course)) {
+                courseList.Add((Course)i);
+            }
+        }
+       return courseList;
     }
 }

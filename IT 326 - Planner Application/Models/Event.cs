@@ -26,10 +26,5 @@ namespace IT_326___Planner_Application.Models
         public Array? assignments { get; set; }
 
     }
-
-    public class Occassion: Event
-    {
-        public string? description { get; set; }
-    }
 }
 
