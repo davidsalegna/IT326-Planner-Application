@@ -70,9 +70,12 @@
         }
     }
 
+    //Delete event from list
     void OnClick(string buttonName)
     {
-        model = null;
+        if (model != null) {
+            Calendar.eventList.Remove(model);
+        }
         DialogService.Close();
     }
 
