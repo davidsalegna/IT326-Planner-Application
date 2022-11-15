@@ -59,15 +59,15 @@
 </RadzenTemplateForm>
 @code {
     [Parameter]
-    public Course? Event { get; set; }
+    public Course? Course { get; set; }
 
     Course? model = new Course();
 
     protected override void OnParametersSet()
     {
-        if (Event != null)
+        if (Course != null)
         {
-            model = Event;
+            model = Course;
         }
     }
 
@@ -81,7 +81,7 @@
         DialogService.Close();
     }
 
-    void OnSubmit(Event? model)
+    void OnSubmit(Course? model)
     {
         DialogService.Close(model);
     }
