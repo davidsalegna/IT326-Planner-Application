@@ -2,7 +2,7 @@
 @inject Radzen.DialogService DialogService
 @using IT_326___Planner_Application.Models
 
-<RadzenTemplateForm TItem="Event" Data="@model" Submit=@OnSubmit>
+<RadzenTemplateForm TItem="Course" Data="@model" Submit=@OnSubmit>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
             <RadzenLabel Text="Text" />
@@ -30,10 +30,19 @@
             <RadzenRequiredValidator Component="End" Text="End is required" />
         </div>
     </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Teacher" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.teacher" Name="Teacher" />
+            <RadzenRequiredValidator Text="Teacher is required" Component="Teacher" />
+        </div>
+    </div>
 
     <div class="row" style="margin-bottom: 16px">
         <h4 class="my-4">Select Event Color</h4>
-        <RadzenColorPicker @bind-Value=@model.color/>
+        <RadzenColorPicker @bind-Value=@model.color />
     </div>
     <div class="row">
         <div class="col-md-3"></div>
@@ -50,13 +59,14 @@
 </RadzenTemplateForm>
 @code {
     [Parameter]
-    public Event? Event { get; set; }
+    public Course? Event { get; set; }
 
-    Event? model = new Event();
+    Course? model = new Course();
 
     protected override void OnParametersSet()
     {
-        if (Event != null) {
+        if (Event != null)
+        {
             model = Event;
         }
     }
@@ -64,7 +74,8 @@
     //Delete event from list
     void OnClick(string buttonName)
     {
-        if (model != null) {
+        if (model != null)
+        {
             Calendar.eventList.Remove(model);
         }
         DialogService.Close();

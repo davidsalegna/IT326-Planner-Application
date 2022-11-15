@@ -80,10 +80,20 @@ else {
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
         // Refer to EditEvent.razor to edit the clicked on event
-        await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
-        if (scheduler != null) {
-            await scheduler.Reload();
+        if (args.Data.GetType() == typeof(Event)) {
+            await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
+               if (scheduler != null) {
+                  await scheduler.Reload();
+               }
         }
+        else if (args.Data.GetType() == typeof(Course)) {
+            await DialogService.OpenAsync<EditCourse>("Edit Course", new Dictionary<string, object> { { "Course", (Course)args.Data } });
+            if (scheduler != null)
+            {
+                await scheduler.Reload();
+            }
+        }
+        
 
     }
 
@@ -92,24 +102,6 @@ else {
         //Change event background to be what was set in the event data
         args.Attributes["style"] = "background: " + args.Data.color;
     }
-
-    async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Course> args)
-    {
-        // Refer to EditEvent.razor to edit the clicked on event
-        await DialogService.OpenAsync<EditEvent>("Edit Event", new Dictionary<string, object> { { "Event", args.Data } });
-        if (scheduler != null)
-        {
-            await scheduler.Reload();
-        }
-
-    }
-
-    void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Course> args)
-    {
-        //Change event background to be what was set in the event data
-        args.Attributes["style"] = "background: " + args.Data.color;
-    }
-
 
     public static IList<Course> getCourseList() {
         IList<Course> courseList = new List<Course> { };
