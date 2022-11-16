@@ -16,14 +16,14 @@ namespace IT_326___Planner_Application.Models
         //Gets or sets the data associated with the event.
         public object? Data { get; set; }
 
-        public string? color { get; set; }
+        public string? Color { get; set; }
     }
 
     public class Course : Event
     {
-        public string? teacher { get; set; }
+        public string? Teacher { get; set; }
 
-        public Array? assignments { get; set; }
+        public Array? Assignments { get; set; }
 
     }
 }

@@ -30,23 +30,62 @@ else {
     public static IList<Event> eventList = new List<Event> {
       new Event
       {
-        Start = DateTime.Today,
-        End = DateTime.Today.AddDays(1),
-        Text = "Placeholder Event"
+        Start = DateTime.Today.AddDays(2).AddHours(5),
+        End = DateTime.Today.AddDays(2).AddHours(8),
+        Text = "Hang out with Prof. Saripalle",
       },
       new Event
       {
-        Start = DateTime.Today,
-        End = DateTime.Today.AddDays(1),
+        Start = DateTime.Today.AddDays(7),
+        End = DateTime.Today.AddDays(8),
         Text = "Birthday"
       },
       new Course {
-        Start = DateTime.Today,
-        End = DateTime.Today.AddDays(1),
+        Start = DateTime.Today.AddHours(12),
+        End = DateTime.Today.AddHours(14),
         Text = "Chemistry",
-        color = "green",
-        teacher = "Rishi"
-      }
+        Color = "green",
+        Teacher = "Rishi Saripalle"
+      },
+      new Course {
+        Start = DateTime.Today.AddHours(10),
+        End = DateTime.Today.AddHours(11),
+        Text = "Math",
+        Color = "blue",
+        Teacher = "Trevor Murphy"
+      },
+      new Course {
+        Start = DateTime.Today.AddHours(15),
+        End = DateTime.Today.AddHours(16),
+        Text = "History",
+        Color = "orange",
+        Teacher = "Max Glover"
+      },
+      new Course {
+        Start = DateTime.Today.AddHours(18),
+        End = DateTime.Today.AddHours(21),
+        Text = "English",
+        Color = "red",
+        Teacher = "David Salegna"
+      },
+      new Event
+      {
+        Start = DateTime.Today.AddDays(5).AddHours(13),
+        End = DateTime.Today.AddDays(5).AddHours(16),
+        Text = "Soul Search",
+      },
+      new Event
+      {
+        Start = DateTime.Today.AddDays(13),
+        End = DateTime.Today.AddDays(15),
+        Text = "Evade Taxes",
+      },
+      new Event
+      {
+        Start = DateTime.Today.AddDays(10).AddHours(15),
+        End = DateTime.Today.AddDays(10).AddHours(17),
+        Text = "Find the Meaning of Life",
+      },
     };
 
     void OnSlotRender(SchedulerSlotRenderEventArgs args)
@@ -100,7 +139,7 @@ else {
     void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Event> args)
     {
         //Change event background to be what was set in the event data
-        args.Attributes["style"] = "background: " + args.Data.color;
+        args.Attributes["style"] = "background: " + args.Data.Color;
     }
 
     public static IList<Course> getCourseList() {

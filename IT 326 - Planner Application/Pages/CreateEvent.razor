@@ -37,7 +37,7 @@
                 </div>
                 <div class="row" style="margin-bottom: 16px">
                     <h4 class="my-4">Select Event Color</h4>
-                    <RadzenColorPicker @bind-Value=@model.color/>
+                    <RadzenColorPicker @bind-Value=@model.Color/>
                 </div>
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -86,8 +86,8 @@
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 16px">
-                    <h4 class="my-4">Select Event Color</h4>
-                    <RadzenColorPicker @bind-Value=@model.color/>
+                    <h4 class="my-4">Select Course Color</h4>
+                    <RadzenColorPicker @bind-Value=@model.Color/>
                 </div>
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -126,8 +126,8 @@
             course.Text = model.Text;
             course.Start = model.Start;
             course.End = model.End;
-            course.color = model.color;
-            course.teacher = teacher;
+            course.Color = model.Color;
+            course.Teacher = teacher;
             DialogService.Close(course);
         }
         else {
