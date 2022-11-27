@@ -1,7 +1,173 @@
 ﻿@page "/assignments"
-@using IT_326___Planner_Application.Shared
-<h3>Assignments</h3>
+@using IT_326___Planner_Application.Models
+@using IT_326___Planner_Application.Pages
+@inject Radzen.DialogService DialogService
+
+
+<h3>Assignments (@assignmentList.Count(assignment=> !assignment.IsDone))</h3>
+
+<PageTitle>Assignments</PageTitle>
+
+<RadzenTemplateForm TItem="Assignment" Data="@model" Submit=@OnSubmit>
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem Text="Assignment">
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Title" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Title" Name="Title" />
+                        <RadzenRequiredValidator Text="Title is required" Component="Title" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="DueDate" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker @bind-Value="@model.DueDate" Name="DueDate" ShowTime="true" />
+                        <RadzenRequiredValidator Text="DueDate is required" Component="DueDate" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel Text="Description" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Description" Name="Description" />
+                        <RadzenRequiredValidator Text="Description is required" Component="Description" />
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col">
+                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
+                    </div>
+                </div>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+</RadzenTemplateForm>
+
+
+<div class="container">
+    <div class="row py-5">
+        <div class="col">
+            <RadzenCard>
+                <RadzenDataList WrapItems="true" AllowPaging="true" Data="@assignmentList" TItem="Assignment" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                    <Template Context="assignment">
+                        <RadzenCard Style="width: 100%; padding: 0; overflow: hidden;">
+                            <div class="container">
+                                <div class="row" style="margin-left: calc(var(--bs-gutter-x) * -1); margin-right: calc(var(--bs-gutter-x) * -1)">
+                                    <div class="col-lg-3 p-3 assignment-title">
+                                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-color-secondary">@(assignment.Title)  <input type="checkbox" @bind="assignment.IsDone"/> </RadzenText>
+                                    </div>
+                                    <div class="col-lg-7 p-3">
+                                        <div class="row d-flex">
+                                            <div class="col-md-6 col-lg-2">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Description</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.Description)</RadzenText>
+                                            </div>
+                                            <div class="col-md-6 col-lg-2">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">DueDate</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.DueDate)</RadzenText>
+                                            </div>
+                                            <div class="col-md-6 col-lg-5">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Course</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.course)</RadzenText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-3">
+                                        <RadzenButton Text="Edit assignment" Class="w-100" Click=@onClick />
+                                    </div>
+                                </div>
+                            </div>
+                        </RadzenCard>
+                    </Template>
+                </RadzenDataList>
+
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+<style>
+.product-title {
+    min-height: 72px;
+    background-color: var(--rz-secondary-lighter);
+}
+.price-badge {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    padding: 8px;
+}
+</style>
+
+
+<ul>
+    @foreach (var Assignment in assignmentList)
+    {
+        <li>
+            <input type="checkbox" @bind="Assignment.IsDone"/>
+            <input @bind="Assignment.Title"/>
+            <input @bind="Assignment.Description"/>
+            <input @bind="Assignment.DueDate"/>
+
+        </li>
+    }
+
+</ul>
+
 
 @code {
+
+
+ public List<Assignment> assignmentList = new List<Assignment>(){
+    
+    new Assignment{
+        Title= "Chem HW 2",
+        DueDate= DateTime.Today.AddDays(10).AddHours(15),
+        Description= "Excel wotksheet and video handout",
+    }
+    
+    };
+
+
+Assignment model = new Assignment();
+
+private void AddAssignment(){
+
+    }
+
+void OnSubmit(Assignment model)
+    {
+        if ( model.Title!= null) {
+            Assignment asgt = new Assignment();
+            asgt.Description=model.Description;
+            asgt.DueDate=model.DueDate;
+            asgt.Title=model.Title;
+            assignmentList.Add(asgt);
+            DialogService.Close(model);
+    }
+
+}
+
+void onClick(){
+
+}
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+    }
+
 
 }
