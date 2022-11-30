@@ -15,6 +15,8 @@ namespace PlannerTesting
             Assert.Equal("Changed Test Course", testCourse.Text);
             testCourse.Color = "purple";
             Assert.Equal("purple", testCourse.Color);
+            testCourse.Teacher = "Dan";
+            Assert.Equal("Dan", testCourse.Teacher);
         }
 
         [Fact]

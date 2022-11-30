@@ -14,7 +14,7 @@ else {
 <PageTitle>Calendar</PageTitle>
 <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender Data="@eventList" style="height: 70vh; width: 70vw; margin: 0; padding: 0;" TItem="Event" 
         StartProperty="Start" EndProperty="End" TextProperty="Text" SelectedIndex="0" SlotSelect=@OnSlotSelect 
-        AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
+        AppointmentSelect=@OnEventSelect AppointmentRender=@OnEventRender>
     <RadzenMonthView />
     <RadzenWeekView />
     <RadzenDayView />
@@ -116,7 +116,7 @@ else {
         }
     }
 
-    async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Event> args)
+    async Task OnEventSelect(SchedulerAppointmentSelectEventArgs<Event> args)
     {
         // Refer to EditEvent.razor to edit the clicked on event
         if (args.Data.GetType() == typeof(Event)) {
@@ -136,7 +136,7 @@ else {
 
     }
 
-    void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Event> args)
+    void OnEventRender(SchedulerAppointmentRenderEventArgs<Event> args)
     {
         //Change event background to be what was set in the event data
         args.Attributes["style"] = "background: " + args.Data.Color;
