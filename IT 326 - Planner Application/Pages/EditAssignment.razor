@@ -1,0 +1,96 @@
+@using Radzen
+@inject Radzen.DialogService DialogService
+@using IT_326___Planner_Application.Models
+
+<RadzenTemplateForm TItem="Assignment" Data="@model" Submit=@OnSubmit>
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem style="font-size: medium" Text="Assignment">
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel style="font-size: medium" Text="Title" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Title" Name="Title" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
+                        <RadzenRequiredValidator Text="Title is required" Component="Title" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel style="font-size: medium" Text="DueDate" />
+                    </div>
+                    <div class="col">
+                        <RadzenDatePicker @bind-Value="@model.DueDate" Name="DueDate" ShowTime="true" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
+                        <RadzenRequiredValidator Text="DueDate is required" Component="DueDate" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                        <RadzenLabel style="font-size: medium" Text="Description" />
+                    </div>
+                    <div class="col">
+                        <RadzenTextBox @bind-Value="@model!.Description" Name="Description" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
+                        <RadzenRequiredValidator Text="Description is required" Component="Description" />
+                    </div>
+                </div>
+                
+                 <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                     <RadzenCard>
+                            <RadzenText style="font-size: medium" TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Choose Course</RadzenText>
+                             <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data="@courseList" @bind-Value=@model.course
+                                TextProperty="Text" ValueProperty=Value  Class="w-100" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
+                      </RadzenCard>
+                     </div>
+                    </div>
+                
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col">
+                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" style="padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; font-size: medium" Text="Save" />
+                    </div>
+                </div>
+                    <div class="row" style="margin-bottom: 16px">
+                     <div class="col-md-3"></div>
+                     <div class="col">
+                        <RadzenButton style="padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; font-size: medium" Text="Delete" Click=@(args => OnClick("Delete Assignment")) />
+                    </div>
+                </div>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter]
+    public Assignment? assignment { get; set; }
+
+    IEnumerable<Course> courseList= Calendar.getCourseList();
+
+    Assignment model = new Assignment();
+
+    protected override void OnParametersSet()
+    {
+        if (assignment != null)
+        {
+            model = assignment;
+        }
+    }
+
+    //Delete Assignment from list
+    void OnClick(string buttonName)
+    {
+        if (model != null)
+        {
+            Assignments.assignmentList.Remove(model);
+        }
+        DialogService.Close();
+    }
+
+    void OnSubmit(Assignment model)
+    {
+        DialogService.Close(model);
+    }
+}

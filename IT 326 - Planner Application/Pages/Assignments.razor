@@ -8,44 +8,54 @@
 
 <PageTitle>Assignments</PageTitle>
 
-<RadzenTemplateForm TItem="Assignment" Data="@model" Submit=@OnSubmit>
+<RadzenTemplateForm TItem="Assignment" Data="@model" Submit=@OnSubmit class="rz-border-black" style="border: 4mm ridge rgba(211, 220, 50, .6); margin-right: 40%">
     <RadzenTabs>
-        <Tabs>
-            <RadzenTabsItem Text="Assignment">
+        <Tabs > 
+            <RadzenTabsItem style="margin-left: 40%; font-size: xx-large" Text="Add Assignment" >
 
                 <div class="row" style="margin-bottom: 16px">
                     <div class="col-md-3">
-                        <RadzenLabel Text="Title" />
+                        <RadzenLabel Text="Title" style="font-size: large"/>
                     </div>
                     <div class="col">
-                        <RadzenTextBox @bind-Value="@model!.Title" Name="Title" />
+                        <RadzenTextBox @bind-Value="@model!.Title" Name="Title" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
                         <RadzenRequiredValidator Text="Title is required" Component="Title" />
                     </div>
                 </div>
 
                 <div class="row" style="margin-bottom: 16px">
                     <div class="col-md-3">
-                        <RadzenLabel Text="DueDate" />
+                        <RadzenLabel Text="DueDate" style="font-size: large"/>
                     </div>
                     <div class="col">
-                        <RadzenDatePicker @bind-Value="@model.DueDate" Name="DueDate" ShowTime="true" />
+                        <RadzenDatePicker @bind-Value="@model.DueDate" Name="DueDate" ShowTime="true" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
                         <RadzenRequiredValidator Text="DueDate is required" Component="DueDate" />
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 16px">
                     <div class="col-md-3">
-                        <RadzenLabel Text="Description" />
+                        <RadzenLabel Text="Description" style="font-size: large"/>
                     </div>
                     <div class="col">
-                        <RadzenTextBox @bind-Value="@model!.Description" Name="Description" />
+                        <RadzenTextBox @bind-Value="@model!.Description" Name="Description" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
                         <RadzenRequiredValidator Text="Description is required" Component="Description" />
                     </div>
                 </div>
                 
+                 <div class="row" style="margin-bottom: 16px">
+                    <div class="col-md-3">
+                     <RadzenCard>
+                            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Choose Course</RadzenText>
+                             <RadzenDropDown AllowClear="true" Placeholder="Select..." AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data="@courseList" @bind-Value=@model.course
+                                TextProperty="Text" ValueProperty=course  Class="w-100" style = "padding: 10px; max-width: 100%; line-height: 1.5; border-radius: 5px; border: 1px solid #ccc; box-shadow: 1px 1px 1px #999; "/>
+                      </RadzenCard>
+                     </div>
+                    </div>
+                
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col">
-                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" />
+                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Save" style="font-size: large; border: thick double #32a1ce"/>
                     </div>
                 </div>
             </RadzenTabsItem>
@@ -54,36 +64,37 @@
 </RadzenTemplateForm>
 
 
+
 <div class="container">
     <div class="row py-5">
         <div class="col">
             <RadzenCard>
-                <RadzenDataList WrapItems="true" AllowPaging="true" Data="@assignmentList" TItem="Assignment" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                <RadzenDataList @ref=@grid WrapItems="true" AllowPaging="true" Data="@assignmentList" TItem="Assignment" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" >
                     <Template Context="assignment">
                         <RadzenCard Style="width: 100%; padding: 0; overflow: hidden;">
                             <div class="container">
                                 <div class="row" style="margin-left: calc(var(--bs-gutter-x) * -1); margin-right: calc(var(--bs-gutter-x) * -1)">
                                     <div class="col-lg-3 p-3 assignment-title">
-                                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-color-secondary">@(assignment.Title)  <input type="checkbox" @bind="assignment.IsDone"/> </RadzenText>
+                                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" style="font-size: medium; margin-left: 10%" Class="rz-color-secondary">@(assignment.Title)  <input type="checkbox" @bind="assignment.IsDone"/> </RadzenText>
                                     </div>
                                     <div class="col-lg-7 p-3">
                                         <div class="row d-flex">
-                                            <div class="col-md-6 col-lg-2">
-                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Description</RadzenText>
-                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.Description)</RadzenText>
+                                            <div class="col-md-6 col-lg-2" style="margin-left: 10%">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" style="font-size: medium" class="mb-0">Description</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" style="font-size: medium" class="mb-sm-2 mb-lg-0">@(assignment.Description)</RadzenText>
                                             </div>
-                                            <div class="col-md-6 col-lg-2">
-                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">DueDate</RadzenText>
-                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.DueDate)</RadzenText>
+                                            <div class="col-md-6 col-lg-2" style="margin-left: 10%">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" style="font-size: medium" class="mb-0">DueDate</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" style="font-size: medium" class="mb-sm-2 mb-lg-0">@(assignment.DueDate)</RadzenText>
                                             </div>
-                                            <div class="col-md-6 col-lg-5">
-                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Course</RadzenText>
-                                                <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(assignment.course)</RadzenText>
+                                            <div class="col-md-6 col-lg-5" style="margin-left: 10%">
+                                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" style="font-size: medium" class="mb-0">Course</RadzenText>
+                                                <RadzenText TextStyle="TextStyle.Body2" style="font-size: medium" class="mb-sm-2 mb-lg-0">@(assignment.CourseName)</RadzenText>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 p-3">
-                                        <RadzenButton Text="Edit assignment" Class="w-100" Click=@onClick />
+                                    <div class="col-lg-2 p-3" style="margin-left: 10%">
+                                        <RadzenButton Text="Edit assignment" Class="w-100" Click="() => onClick(assignment)" />
                                     </div>
                                 </div>
                             </div>
@@ -96,39 +107,18 @@
     </div>
 </div>
 
-<style>
-.product-title {
-    min-height: 72px;
-    background-color: var(--rz-secondary-lighter);
-}
-.price-badge {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 20px;
-    padding: 8px;
-}
-</style>
 
-
-<ul>
-    @foreach (var Assignment in assignmentList)
-    {
-        <li>
-            <input type="checkbox" @bind="Assignment.IsDone"/>
-            <input @bind="Assignment.Title"/>
-            <input @bind="Assignment.Description"/>
-            <input @bind="Assignment.DueDate"/>
-
-        </li>
-    }
-
-</ul>
 
 
 @code {
 
 
- public List<Assignment> assignmentList = new List<Assignment>(){
+private RadzenDataList<Assignment>? grid = new RadzenDataList<Assignment>{};
+
+
+ IEnumerable<Course> courseList= Calendar.getCourseList();
+ 
+ public static IList<Assignment> assignmentList = new List<Assignment>(){
     
     new Assignment{
         Title= "Chem HW 2",
@@ -141,10 +131,6 @@
 
 Assignment model = new Assignment();
 
-private void AddAssignment(){
-
-    }
-
 void OnSubmit(Assignment model)
     {
         if ( model.Title!= null) {
@@ -152,22 +138,30 @@ void OnSubmit(Assignment model)
             asgt.Description=model.Description;
             asgt.DueDate=model.DueDate;
             asgt.Title=model.Title;
+            asgt.course=model.course;
+            asgt.CourseName= model.course.Text;
             assignmentList.Add(asgt);
-            DialogService.Close(model);
     }
 
 }
 
-void onClick(){
-
+public async Task onClick(Assignment args){
+                await DialogService.OpenAsync<EditAssignment>("Edit assignment",
+                new Dictionary<string, object>() { { "Assignment", args } },
+               new Radzen.DialogOptions() { Width = "300px", Height = "370px", Left="50%", Top="100%", Style="background:blue", Resizable = true, Draggable = true });
+               if (grid != null)
+            {
+                await grid.Reload();
+            }
 }
 
 
-    protected override async Task OnInitializedAsync()
+@*
+protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
+    courseList = (Calendar.getCourseList()).ToList();
     }
-
-
+*@
 }
