@@ -3,7 +3,9 @@ namespace IT_326___Planner_Application.Models{
 
 public class Assignment : object
 {
-    public string Title {get;set;}
+    public string? Title {get;set;}
+
+    public string? CourseName { get; set; }
 
     public string? Description {get;set;}
 
