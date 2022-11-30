@@ -1,4 +1,5 @@
-﻿using Radzen.Blazor.Rendering;
+﻿using IT_326___Planner_Application.Pages;
+using Radzen.Blazor.Rendering;
 
 namespace IT_326___Planner_Application.Models
 {
@@ -17,6 +18,25 @@ namespace IT_326___Planner_Application.Models
         public object? Data { get; set; }
 
         public string? Color { get; set; }
+
+        public static Event CreateEvent(DateTime start, DateTime end, string? text = null, string? color = null)
+        {
+            Event newEvent = new Event();
+            newEvent.Start = start;
+            newEvent.End = end;
+            if (text != null)
+            {
+                newEvent.Text = text;
+            }
+            if (color != null)
+            {
+                newEvent.Color = color;
+
+            }
+            Calendar.eventList.Add(newEvent);
+            return newEvent;
+        }
+
     }
 
     public class Course : Event
@@ -24,6 +44,29 @@ namespace IT_326___Planner_Application.Models
         public string? Teacher { get; set; }
 
         public Array? Assignments { get; set; }
+
+        public static Course CreateCourse(DateTime start, DateTime end, string? text = null, string? color = null, string? teacher = null)
+        {
+            Course newEvent = new Course();
+            newEvent.Start = start;
+            newEvent.End = end;
+            if (text != null)
+            {
+                newEvent.Text = text;
+            }
+            if (color != null)
+            {
+                newEvent.Color = color;
+
+            }
+            if (teacher != null)
+            {
+                newEvent.Teacher = teacher;
+
+            }
+            Calendar.eventList.Add(newEvent);
+            return newEvent;
+        }
 
     }
 }

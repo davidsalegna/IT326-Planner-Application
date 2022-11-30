@@ -5,7 +5,7 @@ public class Assignment : object
 {
     public string? Title {get;set;}
 
-    public string? CourseName {get;set;}
+    public string? CourseName { get; set; }
 
     public string? Description {get;set;}
 

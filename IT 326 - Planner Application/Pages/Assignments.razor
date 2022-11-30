@@ -139,7 +139,7 @@ void OnSubmit(Assignment model)
             asgt.DueDate=model.DueDate;
             asgt.Title=model.Title;
             asgt.course=model.course;
-            asgt.CourseName= model.course.Text;
+            asgt.CourseName= model?.course?.Text;
             assignmentList.Add(asgt);
     }
 
