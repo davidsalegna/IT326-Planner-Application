@@ -122,16 +122,12 @@
     void OnSubmit(Event model)
     {
         if (teacher != null) {
-            Course course = new Course();
-            course.Text = model.Text;
-            course.Start = model.Start;
-            course.End = model.End;
-            course.Color = model.Color;
-            course.Teacher = teacher;
-            DialogService.Close(course);
+            Course newCourse = Course.CreateCourse(model.Start, model.End, model.Text, model.Color, teacher);
+            DialogService.Close(newCourse);
         }
         else {
-            DialogService.Close(model);
+            Event newEvent = Event.CreateEvent(model.Start, model.End, model.Text, model.Color);
+            DialogService.Close(newEvent);
         } 
     }
 }
