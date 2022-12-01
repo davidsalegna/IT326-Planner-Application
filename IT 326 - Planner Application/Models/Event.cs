@@ -33,7 +33,7 @@ namespace IT_326___Planner_Application.Models
                 newEvent.Color = color;
 
             }
-            Calendar.eventList.Add(newEvent);
+            //Calendar.eventList.Add(newEvent);
             return newEvent;
         }
 
@@ -64,7 +64,7 @@ namespace IT_326___Planner_Application.Models
                 newEvent.Teacher = teacher;
 
             }
-            Calendar.eventList.Add(newEvent);
+            //Calendar.eventList.Add(newEvent);
             return newEvent;
         }
 
