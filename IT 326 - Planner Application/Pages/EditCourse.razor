@@ -14,6 +14,15 @@
     </div>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
+            <RadzenLabel Text="Teacher" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.Teacher" Name="Teacher" />
+            <RadzenRequiredValidator Text="Teacher is required" Component="Teacher" />
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
             <RadzenLabel Text="Start" />
         </div>
         <div class="col">
@@ -30,16 +39,6 @@
             <RadzenRequiredValidator Component="End" Text="End is required" />
         </div>
     </div>
-    <div class="row" style="margin-bottom: 16px">
-        <div class="col-md-3">
-            <RadzenLabel Text="Teacher" />
-        </div>
-        <div class="col">
-            <RadzenTextBox @bind-Value="model.Teacher" Name="Teacher" />
-            <RadzenRequiredValidator Text="Teacher is required" Component="Teacher" />
-        </div>
-    </div>
-
     <div class="row" style="margin-bottom: 16px">
         <h4 class="my-4">Select Event Color</h4>
         <RadzenColorPicker @bind-Value=@model.Color />
