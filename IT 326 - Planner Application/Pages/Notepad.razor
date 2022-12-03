@@ -1,84 +1,30 @@
 ﻿@page "/notepad"
 @using IT_326___Planner_Application.Shared
-@using Blazored.TextEditor
-<h3>Notepad</h3>
+@inject IJSRuntime JSRuntime
 
-<div class="col-md-8">
+<h1>Create a Note</h1>
+<textarea @bind="fileContent"
+          style="width:150px;height:100px" />
 
-	<div class="card">
-		<div class="card-header"ss></div>
-		Html Text Editor
-	</div>
-	<div class="card-body mb-5" style="height:200px;">
-
-		<BlazoredTextEditor @ref=QuillHtml Placeholder="write something...">
-
-			<ToolbarContent>
-				<select class=" ql-header">
-					<option selected=""></option>
-					<option value="1"></option>
-					<option value="2"></option>
-					<option value="3"></option>
-					<option value="4"></option>
-					<option value="5"></option>
-				</select>
-				<span class="ql-formats">
-					<button class="ql-bold"></button>
-					<button class="ql-italic"></button>
-					<button class="ql-underline'"></button>
-					<button class="ql-strike"></button>
-				</span>
-				<span class="ql-formats">
-					<select class="ql-color"></select>
-					<select class="ql-background"></select>
-				</span>
-				<span class="ql-formats">
-					<button class="ql-list" value="ordered"></button>
-					<button class="ql-list" value="bullet"></button>
-				</span>
-				<span class="ql-formats">
-					<button class="ql-link"></button>
-				</span>
-				<span class="ql-formats">
-					<button class="ql-video"></button>
-				</span>
-
-			</ToolbarContent>
-
-		</BlazoredTextEditor>
-
-	</div>
-
-</div>
-
+<br/>
 <button @onclick="SaveFile">SaveFile</button>
 
 <button @onclick="DownloadFile">GenerateFile</button>
 
 @code {
 
-	private BlazoredTextEditor? QuillHtml;
-	string QuillHTMLContent="";
+    string Content;
 
-	public async void GetHTML()
-	{
-		QuillHTMLContent = await this.QuillHtml.GetHTML();
-		StateHasChanged();
-	}
-	string Content;
+    string fileContent;
 
-	string fileContent;
+    string fileName = "file.txt";
 
-	string fileName = "file.txt";
-
-	public  void SaveFile()
-	{
-		GetHTML();
-		Content = QuillHTMLContent;
-     }
-     public async void DownloadFile()
-     {
-         await JSRuntime.InvokeAsync<object>("saveFile",fileName,Content); 
+    public void SaveFile()
+    {
+        Content = fileContent;
     }
-
+    public async void DownloadFile()
+    {
+        await JSRuntime.InvokeAsync<object>("saveFile", fileName, Content);
+    }
 }
