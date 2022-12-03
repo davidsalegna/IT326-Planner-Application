@@ -51,10 +51,34 @@
 
 </div>
 
+<button @onclick="SaveFile">SaveFile</button>
+
+<button @onclick="DownloadFile">GenerateFile</button>
+
 @code {
 
 	private BlazoredTextEditor? QuillHtml;
-	//private MarkupString preview;
+	string QuillHTMLContent="";
 
+	public async void GetHTML()
+	{
+		QuillHTMLContent = await this.QuillHtml.GetHTML();
+		StateHasChanged();
+	}
+	string Content;
+
+	string fileContent;
+
+	string fileName = "file.txt";
+
+	public  void SaveFile()
+	{
+		GetHTML();
+		Content = QuillHTMLContent;
+     }
+     public async void DownloadFile()
+     {
+         await JSRuntime.InvokeAsync<object>("saveFile",fileName,Content); 
+    }
 
 }
