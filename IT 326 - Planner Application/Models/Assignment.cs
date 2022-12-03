@@ -14,5 +14,16 @@ public class Assignment : object
     public DateTime DueDate {get;set;}
 
     public Course? course {get;set;}
+
+public static Assignment CreateAssignment(String Title, String description, Course course, DateTime dueDate){
+ Assignment asgt = new Assignment();
+ asgt.Title = Title;
+ asgt.Description = description;
+ asgt.course = course;
+asgt.DueDate = dueDate;
+return asgt;
+
+}
+
 }
 }
