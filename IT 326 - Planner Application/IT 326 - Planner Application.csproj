@@ -18,6 +18,10 @@
 		<PackageReference Include="MudBlazor" Version="6.0.13" />
 		<PackageReference Include="Radzen.Blazor" Version="4.1.6" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\QuillControl\QuillControl.csproj" />
+	</ItemGroup>
 	
 	
 </Project>

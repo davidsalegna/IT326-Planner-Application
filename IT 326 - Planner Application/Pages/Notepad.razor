@@ -1,30 +1,67 @@
-﻿@page "/notepad"
-@using IT_326___Planner_Application.Shared
+﻿@page "/Notepad"
 @inject IJSRuntime JSRuntime
+@using QuillControl
+<h1>Text Editor</h1>
+<QuillEditor @ref="@QuillHtml">
+    <ToolbarContent>
+        <select class="ql-header">
+            <option selected=""></option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+        </select>
+        <span class="ql-formats">
+            <button class="ql-bold"></button>
+            <button class="ql-italic"></button>
+            <button class="ql-underline"></button>
+            <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+            <select class="ql-color"></select>
+            <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-list" value="ordered"></button>
+            <button class="ql-list" value="bullet"></button>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-link"></button>
+        </span>
+    </ToolbarContent>
+    <EditorContent>
+        Write something...
+    </EditorContent>
+</QuillEditor>
+<br />
+<MudButton
+    Variant="MudBlazor.Variant.Filled"
+    Color="Color.Primary"
+    OnClick="DownloadFile">
+    Download
+</MudButton>
 
-<h1>Create a Note</h1>
-<textarea @bind="fileContent"
-          style="width:150px;height:100px" />
 
-<br/>
-<button @onclick="SaveFile">SaveFile</button>
-
-<button @onclick="DownloadFile">GenerateFile</button>
+<div>
+    <h2><u>File preview presented below after download...</u></h2>
+    <br />
+    <h3><u>File preview</u></h3>
+    @((MarkupString)QuillHTMLContent)
+    <h3><u>HTML preview</u></h3>
+    @QuillHTMLContent
+</div>
+<br />
 
 @code {
-
-    string? Content;
-
-    string? fileContent;
-
+    private QuillEditor? QuillHtml;
+    string QuillHTMLContent;
     string fileName = "file.txt";
 
-    public void SaveFile()
-    {
-        Content = fileContent;
-    }
     public async void DownloadFile()
     {
-        await JSRuntime.InvokeAsync<object>("saveFile", fileName, Content);
+        QuillHTMLContent = await this.QuillHtml.GetHTML();
+        StateHasChanged();
+        await JSRuntime.InvokeAsync<object>("saveFile", fileName, QuillHTMLContent);
     }
 }
