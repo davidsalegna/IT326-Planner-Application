@@ -14,9 +14,6 @@ namespace IT_326___Planner_Application.Models
         //Gets or sets the text of the event.
         public string? Text { get; set; }
 
-        //Gets or sets the data associated with the event.
-        public object? Data { get; set; }
-
         public string? Color { get; set; }
 
         public static Event CreateEvent(DateTime start, DateTime end, string? text = null, string? color = null)
@@ -33,7 +30,6 @@ namespace IT_326___Planner_Application.Models
                 newEvent.Color = color;
 
             }
-            //Calendar.eventList.Add(newEvent);
             return newEvent;
         }
 
@@ -64,7 +60,6 @@ namespace IT_326___Planner_Application.Models
                 newEvent.Teacher = teacher;
 
             }
-            //Calendar.eventList.Add(newEvent);
             return newEvent;
         }
 
