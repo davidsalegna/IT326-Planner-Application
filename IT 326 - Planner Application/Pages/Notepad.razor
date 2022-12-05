@@ -1,5 +1,7 @@
 ﻿@page "/Notepad"
+@inject IJSRuntime JSRuntime
 @using QuillControl
+<h1>Text Editor</h1>
 <QuillEditor @ref="@QuillHtml">
     <ToolbarContent>
         <select class="ql-header">
@@ -29,19 +31,24 @@
         </span>
     </ToolbarContent>
     <EditorContent>
-        <h1>Hello World!</h1>
+        <h1>Write something...</h1>
     </EditorContent>
 </QuillEditor>
+<br />
+<MudButton
+    Variant="MudBlazor.Variant.Filled"
+    Color="Color.Primary"
+    OnClick="DownloadFile">
+    Download
+</MudButton>
 
-<br />
-<button class="btn btn-primary"
-        @onclick="GetHTML">
-    Get HTML
-</button>
-<br />
+
 <div>
+    <h2><u>File preview presented below after download...</u></h2>
     <br />
+    <h3><u>File preview</u></h3>
     @((MarkupString)QuillHTMLContent)
+    <h3><u>HTML preview</u></h3>
     @QuillHTMLContent
 </div>
 <br />
@@ -49,9 +56,12 @@
 @code {
     private QuillEditor? QuillHtml;
     string QuillHTMLContent;
-    public async void GetHTML()
+    string fileName = "file.txt";
+
+    public async void DownloadFile()
     {
         QuillHTMLContent = await this.QuillHtml.GetHTML();
         StateHasChanged();
+        await JSRuntime.InvokeAsync<object>("saveFile", fileName, QuillHTMLContent);
     }
 }
