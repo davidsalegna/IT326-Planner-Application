@@ -47,7 +47,7 @@
     <h2><u>File preview presented below after download...</u></h2>
     <br />
     <h3><u>File preview</u></h3>
-    @((MarkupString)QuillHTMLContent)
+    @((MarkupString)QuillHTMLContent!)
     <h3><u>HTML preview</u></h3>
     @QuillHTMLContent
 </div>
@@ -55,12 +55,12 @@
 
 @code {
     private QuillEditor? QuillHtml;
-    string QuillHTMLContent;
+    string? QuillHTMLContent;
     string fileName = "file.txt";
 
     public async void DownloadFile()
     {
-        QuillHTMLContent = await this.QuillHtml.GetHTML();
+        QuillHTMLContent = await this.QuillHtml!.GetHTML();
         StateHasChanged();
         await JSRuntime.InvokeAsync<object>("saveFile", fileName, QuillHTMLContent);
     }
