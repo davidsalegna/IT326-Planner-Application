@@ -73,7 +73,7 @@
                     <Template Context="assignment">
                         <RadzenCard Style="width: 100%; padding: 0; overflow: hidden;">
                             <div class="container">
-                                <div class="row" style="margin-left: calc(var(--bs-gutter-x) * -1); margin-right: calc(var(--bs-gutter-x) * -1)">
+                                <div class="row" style="margin-left: calc(var(--bs-gutter-x) * -1); margin-right: calc(var(--bs-gutter-x) * -1);border: 4mm ridge rgba(211, 220, 50, .6)">
                                     <div class="col-lg-3 p-3 assignment-title">
                                             <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" style="font-size: medium; margin-left: 10%" Class="rz-color-secondary">@(assignment.Title)  <input type="checkbox" @bind="assignment.IsDone"/> </RadzenText>
                                     </div>
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 p-3" style="margin-left: 10%">
-                                        <RadzenButton Text="Edit assignment" Class="w-100" Click="() => onClick(assignment)" />
+                                        <RadzenButton Text="Edit assignment" Class="w-100" Click="() => onClick(assignment)" style="font-size: large; border: thick double #32a1ce"/>
                                     </div>
                                 </div>
                             </div>
@@ -124,6 +124,13 @@ private RadzenDataList<Assignment>? grid = new RadzenDataList<Assignment>{};
         Title= "Chem HW 2",
         DueDate= DateTime.Today.AddDays(10).AddHours(15),
         Description= "Excel wotksheet and video handout",
+        CourseName = "Math",
+    },
+     new Assignment{
+        Title= "final project",
+        DueDate= DateTime.Today.AddDays(10).AddHours(15),
+        Description= "app presentation",
+        CourseName = "IT 386",
     }
     
     };
@@ -148,20 +155,20 @@ void OnSubmit(Assignment model)
 public async Task onClick(Assignment args){
                 await DialogService.OpenAsync<EditAssignment>("Edit assignment",
                 new Dictionary<string, object>() { { "Assignment", args } },
-               new Radzen.DialogOptions() { Width = "300px", Height = "370px", Left="50%", Top="100%", Style="background:blue", Resizable = true, Draggable = true });
+               new Radzen.DialogOptions() { Width = "300px", Height = "370px", Left="50%", Top="100%", Style="background:blue; border: 4mm ridge rgba(211, 220, 50, .6)", Resizable = true, Draggable = true });
                if (grid != null)
             {
                 await grid.Reload();
             }
 }
 
-
 @*
 protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
+         await base.OnInitializedAsync();
 
-    courseList = (Calendar.getCourseList()).ToList();
+        orders = dbContext.Orders.Include("Customer").Include("Employee").ToList();
+        orderIds = orders.Select(o => o.OrderID).Distinct();
     }
 *@
 }
